@@ -81,6 +81,28 @@ app.post("/courses", async (req, res) => {
   }
 });
 
+app.put("/courses/:id", async (req, res) => {
+  try {
+    const editedCourse = await Course.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    if (!editedCourse) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    res.json(editedCourse);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`PORT ${process.env.PORT} is running`);
 });
