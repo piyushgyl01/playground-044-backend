@@ -22,6 +22,28 @@ app.get("/", (req, res) => {
   res.json("Course Database! Browse your favorite course");
 });
 
+// async function insertData(data) {
+//   try {
+//     const savedData = await Course.insertMany(data);
+//     console.log(savedData);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// insertData(mockCourseData)
+
+app.get("/courses", async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.json(courses);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`PORT ${process.env.PORT} is running`);
 });
