@@ -60,6 +60,27 @@ app.get("/courses/:id", async (req, res) => {
   }
 });
 
+app.post("/courses", async (req, res) => {
+  const { name, description, teacher } = req.body;
+
+  if (!name || !description || !teacher) {
+    return res
+      .status(404)
+      .json({ message: "Please fill in all required fields" });
+  }
+
+  try {
+    const newCourse = new Course({ name, description, teacher });
+    const savedCourse = await newCourse.save();
+
+    res.status(201).json(savedCourse);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`PORT ${process.env.PORT} is running`);
 });
