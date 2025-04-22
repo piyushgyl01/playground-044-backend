@@ -103,22 +103,21 @@ app.put("/courses/:id", async (req, res) => {
   }
 });
 
-app.delete("/courses/:id", async (req,res) => {
-    try {
-        const deleteCourse = await Course.findByIdAndDelete(req.params.id)
+app.delete("/courses/:id", async (req, res) => {
+  try {
+    const deleteCourse = await Course.findByIdAndDelete(req.params.id);
 
-        if (!deleteCourse) {
-            return res.status(404).json({ message: "Course not found" });
-        }
-
-        res.json(deleteCourse)
-    } catch (error) {
-        res
-          .status(500)
-          .json({ message: "Internal server error", error: error.message });
-        
+    if (!deleteCourse) {
+      return res.status(404).json({ message: "Course not found" });
     }
-})
+
+    res.json(deleteCourse);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`PORT ${process.env.PORT} is running`);
